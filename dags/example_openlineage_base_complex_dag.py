@@ -30,9 +30,6 @@ try:
 except ImportError:
     from airflow.utils.task_group import TaskGroup  # type: ignore[no-redef]
 
-from system.openlineage.expected_events import AIRFLOW_VERSION, get_expected_event_file_path
-from system.openlineage.operator import OpenLineageTestOperator
-
 
 def check_events_number_func():
     for event_type in ("start", "complete", "fail"):
@@ -120,7 +117,7 @@ with DAG(
     with TaskGroup("section_1", prefix_group_id=True) as tg:
         task_5 = CustomMappedOperator.partial(task_id="task_5", doc_md="md doc").expand(value=[1])
         with TaskGroup("section_2", parent_group=tg, tooltip="group_tooltip") as tg2:
-            add_args: dict[str, Any] = {"sla": timedelta(seconds=123)} if AIRFLOW_VERSION.major == 2 else {}
+            add_args: dict[str, Any] = {}
             task_6 = EmptyOperator(
                 task_id="task_6",
                 on_success_callback=lambda x: print(1),
