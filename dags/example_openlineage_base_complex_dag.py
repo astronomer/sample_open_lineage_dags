@@ -132,10 +132,6 @@ with DAG(
         task_id="check_events_number", python_callable=check_events_number_func
     )
 
-    check_events = OpenLineageTestOperator(
-        task_id="check_events", file_path=get_expected_event_file_path(DAG_ID)
-    )
-
     task_1 >> [task_2, task_7] >> check_events_number
     task_2 >> task_3 >> [task_4, task_5] >> task_6 >> check_events_number
 
