@@ -141,10 +141,4 @@ with DAG(
 
     task_1 >> [task_2, task_7] >> check_events_number
     task_2 >> task_3 >> [task_4, task_5] >> task_6 >> check_events_number
-    check_events_number >> check_events
 
-
-from tests_common.test_utils.system_tests import get_test_run  # noqa: E402
-
-# Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
-test_run = get_test_run(dag)
